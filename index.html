@@ -198,7 +198,8 @@
         `;
 
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+            // تم تحديث اسم النموذج هنا إلى gemini-1.5-flash-latest
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -229,7 +230,7 @@
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
 
-        if (data.length === 0) {
+        if (!data || data.length === 0) {
             tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">لا توجد نتائج.</td></tr>';
             return;
         }
@@ -237,11 +238,11 @@
         data.forEach(item => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td><span class="code-badge">${item.code}</span></td>
-                <td><strong>${item.term_ar}</strong></td>
-                <td>${item.term_en}</td>
-                <td>${item.category}</td>
-                <td>${item.description}</td>
+                <td><span class="code-badge">${item.code || ''}</span></td>
+                <td><strong>${item.term_ar || ''}</strong></td>
+                <td>${item.term_en || ''}</td>
+                <td>${item.category || ''}</td>
+                <td>${item.description || ''}</td>
             `;
             tbody.appendChild(row);
         });
@@ -250,11 +251,11 @@
     function filterTable() {
         const query = document.getElementById('searchInput').value.toLowerCase();
         const filtered = generatedData.filter(item => 
-            item.code.toLowerCase().includes(query) ||
-            item.term_ar.toLowerCase().includes(query) ||
-            item.term_en.toLowerCase().includes(query) ||
-            item.category.toLowerCase().includes(query) ||
-            item.description.toLowerCase().includes(query)
+            (item.code && item.code.toLowerCase().includes(query)) ||
+            (item.term_ar && item.term_ar.toLowerCase().includes(query)) ||
+            (item.term_en && item.term_en.toLowerCase().includes(query)) ||
+            (item.category && item.category.toLowerCase().includes(query)) ||
+            (item.description && item.description.toLowerCase().includes(query))
         );
         renderTable(filtered);
     }
