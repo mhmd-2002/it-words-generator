@@ -183,7 +183,7 @@
         btn.disabled = true;
         loading.style.display = 'block';
 
-        const domainText = category === 'الكل' ? 'مختلف مجالات تقنية المعلومات' : مجال `${category}`;
+        const domainText = category === 'الكل' ? 'مختلف مجالات تقنية المعلومات' : 'مجال ' + category;
         
         const promptText = `
 أنت خبير في معاجم تقنية المعلومات. قم بتوليد 8 مصطلحات تقنية في ${domainText}.
